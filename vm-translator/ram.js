@@ -7,41 +7,42 @@ module.exports = class Ram {
   }
 
   pop(index) {
-    this.setIndex(index);
+    index = this.sanitizeIndex(index);
+
     switch (this.variable) {
     case 'const':
       throw Error('Constant can not be poped');
     case 'static':
-      this.actions = Pop.static();
-      break;
+      return Pop.static().output();
+    case 'TEMP':
+      return Pop.temp().output();
     default:
-      this.actions = Pop.basic(this.variable, this.index);
+      return Pop.basic(this.variable, index).output();
     }
   }
 
   push(index) {
-    this.setIndex(index);
+    index = this.sanitizeIndex(index);
+
     switch (this.variable) {
     case 'const':
-      this.actions = Push.constant(this.index);
-      break;
+      return Push.constant(index).output();
     case 'static':
-      this.actions = Push.static();
-      break;
+      return Push.static().output();
+    case 'TEMP':
+      return Push.temp(index).output();
     default:
-      this.actions = Push.basic(this.variable, this.index);
+      this.actions = Push.basic(this.variable, index);
     }
   }
 
-  setIndex(index) {
-    this.index = +index;
-    if (isNaN(this.index) || this.index < 0) {
+  sanitizeIndex(index) {
+    index = +index;
+    if (isNaN(index) || index < 0) {
       throw Error('Index must be a number');
     }
-  }
 
-  toString() {
-    return this.actions.join(`\n`);
+    return index;
   }
 
   /**

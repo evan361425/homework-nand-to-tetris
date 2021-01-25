@@ -16,26 +16,23 @@ module.exports = class Translator {
 
   static memory(action, segment, index) {
     const ram = new Ram(segment);
+
     switch (action) {
     case 'push':
-      ram.push(index);
-      break;
+      return ram.push(index);
     case 'pop':
-      ram.pop(index);
-      break;
+      return ram.pop(index);
     default:
       throw Error('Memory segment action must only be "push" or "pop"');
     }
-
-    return ram.toString();
   }
 
   static logic(action) {
     switch (action) {
     case 'add':
-      return Logic.add().join(`\n`);
+      return Logic.add().output();
     case 'sub':
-      return Logic.sub().join(`\n`);
+      return Logic.sub().output();
     default:
       throw Error(`Action ${action} is not allow`);
     }

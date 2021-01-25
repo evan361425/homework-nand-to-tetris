@@ -1,26 +1,28 @@
+const Action = require('./action');
+
 module.exports = class Push {
   static constant(index) {
-    return [
+    return new Action([
       `@${index}`,
       'D=A',
-    ].concat(this.push());
+    ]).concat(this.push());
   }
 
   static basic(variable, index) {
-    let actions = [];
+    const actions = new Action();
     // go to specific index
     if (index === 0) {
-      actions = actions.concat([
+      actions.concat([
         `@${variable}`,
         'A=M',
       ]);
     } else if (index === 1) {
-      actions = actions.concat([
+      actions.concat([
         `@${variable}`,
         'A=M+1',
       ]);
     } else {
-      actions = actions.concat([
+      actions.concat([
         `@${index}`,
         'D=A',
         `@${variable}`,
@@ -28,9 +30,19 @@ module.exports = class Push {
       ]);
     }
 
-    return actions.concat([
-      'D=M', // save target data\
-    ]).concat(this.push());
+    return actions
+      .add('D=M')// save target data
+      .concat(this.push());
+  }
+
+  static temp(index) {
+    index += 5;
+    const action = new Action([
+      `@${index}`,
+      'D=M',
+    ]);
+
+    return action.concat(this.push());
   }
 
   static static() {
@@ -38,12 +50,12 @@ module.exports = class Push {
   }
 
   static push() {
-    return [
+    return new Action([
       '@SP', // save to stack
       'A=M',
       'M=D',
       '@SP', // increment stack pointer
       'M=M+1',
-    ];
+    ]);
   }
 };

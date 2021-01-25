@@ -1,3 +1,5 @@
+const Action = require('./action');
+
 module.exports = class Pop {
   static static() {
     return [];
@@ -7,11 +9,7 @@ module.exports = class Pop {
     const actions = this.pop();
     // go to specific index
     if (index === 0) {
-      return actions.concat([
-        `@${variable}`,
-        'A=M',
-        'M=D',
-      ]);
+      return actions.saveTo(variable);
     } else if (index === 1) {
       return actions.concat([
         `@${variable}`,
@@ -20,29 +18,38 @@ module.exports = class Pop {
       ]);
     } else {
       return actions.concat([
-        '@spdata',
+        '@1000',
         'M=D',
         `@${index}`,
         'D=A',
         `@${variable}`,
         'D=M+D',
-        '@sptarget',
+        '@1001',
         'M=D',
-        '@spdata',
+        '@1000',
         'D=M',
-        '@sptarget',
+        '@1001',
         'A=M',
         'M=D',
       ]);
     }
   }
 
+  static temp(index) {
+    index += 5;
+
+    return this.pop().concat([
+      `@${index}`,
+      'M=D',
+    ]);
+  }
+
   static pop() {
-    return [
+    return new Action([
       '@SP',
       'M=M-1', // decrement stack pointer
       'A=M', // go to pointing RAM
       'D=M', // save target data
-    ];
+    ]);
   }
 };
