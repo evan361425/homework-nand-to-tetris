@@ -1,0 +1,7 @@
+{
+  "author": "Shueh Chou Lu <evanlu361425@gmail.com>",
+  "devDependencies": {
+    "eslint": "^7.18.0",
+    "eslint-config-google": "^0.14.0"
+  }
+}
