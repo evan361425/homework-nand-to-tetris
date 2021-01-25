@@ -30,6 +30,6 @@ module.exports = class Translator {
   }
 
   static logic(action) {
-    return action;
+    return action+'hold-on..';
   }
 };
