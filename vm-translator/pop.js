@@ -4,12 +4,7 @@ module.exports = class Pop {
   }
 
   static basic(variable, index) {
-    let actions = [
-      '@SP',
-      'M=M-1', // decrement stack pointer
-      'A=M', // go to pointing RAM
-      'D=M', // save target data
-    ];
+    const actions = this.pop();
     // go to specific index
     if (index === 0) {
       return actions.concat([
@@ -40,5 +35,14 @@ module.exports = class Pop {
         'M=D',
       ]);
     }
+  }
+
+  static pop() {
+    return [
+      '@SP',
+      'M=M-1', // decrement stack pointer
+      'A=M', // go to pointing RAM
+      'D=M', // save target data
+    ];
   }
 };

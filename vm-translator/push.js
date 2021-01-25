@@ -3,12 +3,7 @@ module.exports = class Push {
     return [
       `@${index}`,
       'D=A',
-      '@SP',
-      'A=M',
-      'M=D',
-      '@SP',
-      'M=M+1',
-    ];
+    ].concat(this.push());
   }
 
   static basic(variable, index) {
@@ -34,16 +29,21 @@ module.exports = class Push {
     }
 
     return actions.concat([
-      'D=M', // save target data
+      'D=M', // save target data\
+    ]).concat(this.push());
+  }
+
+  static static() {
+    return [];
+  }
+
+  static push() {
+    return [
       '@SP', // save to stack
       'A=M',
       'M=D',
       '@SP', // increment stack pointer
       'M=M+1',
-    ]);
-  }
-
-  static static() {
-    return [];
+    ];
   }
 };

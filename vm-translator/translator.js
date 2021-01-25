@@ -1,4 +1,5 @@
 const Ram = require('./ram');
+const Logic = require('./logic');
 
 module.exports = class Translator {
   static translate(line) {
@@ -30,6 +31,13 @@ module.exports = class Translator {
   }
 
   static logic(action) {
-    return action+'hold-on..';
+    switch (action) {
+    case 'add':
+      return Logic.add().join(`\n`);
+    case 'sub':
+      return Logic.sub().join(`\n`);
+    default:
+      throw Error(`Action ${action} is not allow`);
+    }
   }
 };
