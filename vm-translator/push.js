@@ -45,17 +45,20 @@ module.exports = class Push {
     return action.concat(this.push());
   }
 
-  static static() {
-    return [];
+  static static(variable) {
+    return new Action([
+      `@${variable}`,
+      'D=M',
+    ].concat(this.push()));
   }
 
   static push() {
-    return new Action([
+    return [
       '@SP', // save to stack
       'A=M',
       'M=D',
       '@SP', // increment stack pointer
       'M=M+1',
-    ]);
+    ];
   }
 };

@@ -1,15 +1,15 @@
 const Action = require('./action');
 
 module.exports = class Pop {
-  static static() {
-    return [];
-  }
-
   static basic(variable, index) {
     const actions = this.pop();
     // go to specific index
     if (index === 0) {
-      return actions.saveTo(variable);
+      return actions.concat([
+        `@${variable}`,
+        'A=M',
+        'M=D',
+      ]);
     } else if (index < 10) {
       return actions
         .add(`@${variable}`)
@@ -40,6 +40,13 @@ module.exports = class Pop {
 
     return this.pop().concat([
       `@${index}`,
+      'M=D',
+    ]);
+  }
+
+  static static(variable) {
+    return this.pop().concat([
+      `@${variable}`,
       'M=D',
     ]);
   }

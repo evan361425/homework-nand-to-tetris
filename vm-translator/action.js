@@ -21,14 +21,6 @@ module.exports = class Action {
     return this;
   }
 
-  saveTo(variable) {
-    return this.concat([
-      `@${variable}`,
-      'A=M',
-      'M=D',
-    ]);
-  }
-
   output() {
     return this.actions.join(`\n`);
   }

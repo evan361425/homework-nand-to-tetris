@@ -13,7 +13,7 @@ module.exports = class Ram {
     case 'CONSTANT':
       throw Error('Constant can not be poped');
     case 'STATIC':
-      return Pop.static().output();
+      return Pop.static(Ram.staticVar(index)).output();
     case 'TEMP':
       return Pop.temp(index).output();
     default:
@@ -28,7 +28,7 @@ module.exports = class Ram {
     case 'CONSTANT':
       return Push.constant(index).output();
     case 'STATIC':
-      return Push.static().output();
+      return Push.static(Ram.staticVar(index)).output();
     case 'TEMP':
       return Push.temp(index).output();
     default:
@@ -43,6 +43,15 @@ module.exports = class Ram {
     }
 
     return index;
+  }
+
+  static setStaticFile(source) {
+    const folderIndex = source.lastIndexOf('/') + 1;
+    Ram.source = source.substr(folderIndex, source.lastIndexOf('.') - folderIndex);
+  }
+
+  static staticVar(index) {
+    return `${Ram.source}.${index}`;
   }
 
   /**
