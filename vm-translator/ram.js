@@ -10,9 +10,9 @@ module.exports = class Ram {
     index = this.sanitizeIndex(index);
 
     switch (this.variable) {
-    case 'const':
+    case 'CONSTANT':
       throw Error('Constant can not be poped');
-    case 'static':
+    case 'STATIC':
       return Pop.static().output();
     case 'TEMP':
       return Pop.temp(index).output();
@@ -25,9 +25,9 @@ module.exports = class Ram {
     index = this.sanitizeIndex(index);
 
     switch (this.variable) {
-    case 'const':
+    case 'CONSTANT':
       return Push.constant(index).output();
-    case 'static':
+    case 'STATIC':
       return Push.static().output();
     case 'TEMP':
       return Push.temp(index).output();
@@ -52,15 +52,15 @@ module.exports = class Ram {
    */
   getVariable(segment) {
     switch (segment.toLowerCase()) {
-    case 'constant':
-      return 'const';
     case 'local':
       return 'LCL';
     case 'argument':
       return 'ARG';
+    case 'static':
     case 'this':
     case 'that':
     case 'temp':
+    case 'constant':
       return segment.toUpperCase();
     default:
       throw Error('Wrong memory segment');

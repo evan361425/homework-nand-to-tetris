@@ -1,25 +1,22 @@
 const Pop = require('./pop');
-const Push = require('./push');
 
 module.exports = class Logic {
   static add() {
     return this.pop2().concat([
-      '@1000',
-      'D=D+M',
-    ]).concat(Push.push());
+      'M=M+D',
+    ]);
   }
 
   static sub() {
     return this.pop2().concat([
-      '@1000',
-      'D=D-M',
-    ]).concat(Push.push());
+      'M=M-D',
+    ]);
   }
 
   static pop2() {
     return Pop.pop().concat([
-      '@1000',
-      'M=D',
-    ]).concat(Pop.pop());
+      '@SP',
+      'A=M-1', // get prev element but don't point decrement
+    ]);
   }
 };
