@@ -16,6 +16,8 @@ module.exports = class Ram {
       return Pop.static(Ram.staticVar(index)).output();
     case 'TEMP':
       return Pop.temp(index).output();
+    case 'POINTER':
+      return Pop.static(index === 0 ? 'THIS' : 'THAT').output();
     default:
       return Pop.basic(this.variable, index).output();
     }
@@ -31,6 +33,8 @@ module.exports = class Ram {
       return Push.static(Ram.staticVar(index)).output();
     case 'TEMP':
       return Push.temp(index).output();
+    case 'POINTER':
+      return Push.static(index === 0 ? 'THIS' : 'THAT').output();
     default:
       return Push.basic(this.variable, index).output();
     }
@@ -65,6 +69,7 @@ module.exports = class Ram {
       return 'LCL';
     case 'argument':
       return 'ARG';
+    case 'pointer':
     case 'static':
     case 'this':
     case 'that':
