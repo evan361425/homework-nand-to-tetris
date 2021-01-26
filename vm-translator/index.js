@@ -34,9 +34,9 @@ function readSource() {
 
     try {
       const asmLine = Translator.translate(line);
-      targetStream.write(`// line: ${lineIndex}\n${asmLine}\n`);
+      targetStream.write(`// ${line}\n${asmLine}\n`);
     } catch (err) {
-      throw new Error(`${err.message} at line ${lineIndex}`);
+      throw new Error(`${line}\nline index: ${lineIndex}\n${err.message}`);
     }
   }).on('close', () => {
     console.log(`Wrote to ${target}`);

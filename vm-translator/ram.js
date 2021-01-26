@@ -15,7 +15,7 @@ module.exports = class Ram {
     case 'static':
       return Pop.static().output();
     case 'TEMP':
-      return Pop.temp().output();
+      return Pop.temp(index).output();
     default:
       return Pop.basic(this.variable, index).output();
     }
@@ -32,7 +32,7 @@ module.exports = class Ram {
     case 'TEMP':
       return Push.temp(index).output();
     default:
-      this.actions = Push.basic(this.variable, index);
+      return Push.basic(this.variable, index).output();
     }
   }
 

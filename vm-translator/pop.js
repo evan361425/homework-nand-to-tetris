@@ -10,12 +10,12 @@ module.exports = class Pop {
     // go to specific index
     if (index === 0) {
       return actions.saveTo(variable);
-    } else if (index === 1) {
-      return actions.concat([
-        `@${variable}`,
-        'A=M+1',
-        'M=D',
-      ]);
+    } else if (index < 10) {
+      return actions
+        .add(`@${variable}`)
+        .add('A=M+1')
+        .concat(new Array(index-1).fill('A=A+1'))
+        .add('M=D');
     } else {
       return actions.concat([
         '@1000',
