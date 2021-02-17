@@ -19,9 +19,8 @@ module.exports = class Translator {
 
     switch (action) {
     case 'push':
-      return ram.push(index);
     case 'pop':
-      return ram.pop(index);
+      return ram[action](index);
     default:
       throw Error('Memory segment action must only be "push" or "pop"');
     }
@@ -29,10 +28,19 @@ module.exports = class Translator {
 
   static logic(action) {
     switch (action) {
+    // math
     case 'add':
-      return Logic.add().output();
     case 'sub':
-      return Logic.sub().output();
+    case 'and':
+    case 'or':
+    // logic
+    case 'eq':
+    case 'lt':
+    case 'gt':
+    // bitwise
+    case 'neg':
+    case 'not':
+      return Logic[action]().output();
     default:
       throw Error(`Action ${action} is not allow`);
     }

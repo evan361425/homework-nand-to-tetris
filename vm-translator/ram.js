@@ -11,7 +11,7 @@ module.exports = class Ram {
 
     switch (this.variable) {
     case 'CONSTANT':
-      throw Error('Constant can not be poped');
+      throw Error('Constant can not be pop');
     case 'STATIC':
       return Pop.static(Ram.staticVar(index)).output();
     case 'TEMP':
