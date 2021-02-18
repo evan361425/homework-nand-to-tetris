@@ -1,6 +1,6 @@
-const Action = require('./action');
+const { Action } = require('../action');
 
-module.exports = class Pop {
+export class Pop {
   static basic(variable, index) {
     // go to specific index
     if (index === 0) {

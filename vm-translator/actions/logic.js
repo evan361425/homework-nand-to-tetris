@@ -1,4 +1,4 @@
-const Pop = require('./pop');
+const { Pop } = require('./pop');
 
 let counter = 0;
 

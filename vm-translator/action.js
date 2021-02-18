@@ -1,4 +1,4 @@
-module.exports = class Action {
+export class Action {
   /**
    * @constructor
    * @param {string[]} actions

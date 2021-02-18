@@ -10,7 +10,7 @@ const PREFIX_ARITHMETIC     = ['add', 'sub', 'and', 'or'];
 const PREFIX_BITWISE        = ['neg', 'not'];
 /* eslint-enable no-multi-spaces */
 
-module.exports = class Translator {
+export class Translator {
   static translate(line) {
     const parts = line.split(' ');
     const action = parts[0];

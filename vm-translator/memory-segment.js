@@ -1,5 +1,5 @@
-const Push = require('./push');
-const Pop = require('./pop');
+const { Push } = require('./actions/push');
+const { Pop } = require('./actions/pop');
 
 export class MemorySegment {
   constructor(segment) {

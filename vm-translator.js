@@ -1,7 +1,7 @@
 const fs = require('fs');
 const readline = require('readline');
-const Translator = require('./vm-translator/translator');
-const MemorySegment = require('./vm-translator/memory-segment');
+const { Translator } = require('./vm-translator/translator');
+const { MemorySegment } = require('./vm-translator/memory-segment');
 
 // 0: node, 1: current file
 const source = process.argv[2];
@@ -15,37 +15,53 @@ fs.stat(source, (err) => {
     throw err;
   }
 
+  const translator = new VMTranslator(source);
+
   console.log(`Reading file ${source}`);
-  readSource(source);
+  translator.read();
 });
 
-function readSource() {
-  const target = `${source.substr(0, source.lastIndexOf('.'))}.asm`;
-  const sourceStream = fs.createReadStream(source);
-  const targetStream = fs.createWriteStream(target);
-  MemorySegment.setStaticFile(source);
-  let lineIndex = 0;
+class VMTranslator {
+  /**
+   * @constructor
+   * @param {string} source
+   */
+  constructor(source) {
+    MemorySegment.setStaticFile(source);
 
-  readline.createInterface({
-    input: sourceStream,
-    crlfDelay: Infinity,
-  }).on('line', (line) => {
-    lineIndex++;
-    line = lineSanitize(line);
-    if (line === null) return;
+    const target = `${source.substr(0, source.lastIndexOf('.'))}.asm`;
+    this.sourceStream = fs.createReadStream(source);
+    this.targetStream = fs.createWriteStream(target);
 
+    this.index = 0;
+  }
+
+  start() {
+    readline.createInterface({
+      input: this.sourceStream,
+      crlfDelay: Infinity,
+    }).on('line', (line) => {
+      this.index++;
+      line = this.sanitize(line);
+      if (line === null) return;
+
+      this.translate(line);
+    }).on('close', () => {
+      console.log(`Wrote to ${target}`);
+    });
+  }
+
+  translate(line) {
     try {
       const asmLine = Translator.translate(line);
-      targetStream.write(`// ${line}\n${asmLine}\n`);
+      this.targetStream.write(`// ${line}\n${asmLine}\n`);
     } catch (err) {
-      throw new Error(`${line}\nline index: ${lineIndex}\n${err.message}`);
+      throw new Error(`${line}\nline index: ${this.index}\n${err.message}`);
     }
-  }).on('close', () => {
-    console.log(`Wrote to ${target}`);
-  });
-}
+  }
 
-function lineSanitize(line) {
-  line = line.toString().trim();
-  return line === '' || line.startsWith('//') ? null : line;
+  sanitize(line) {
+    line = line.toString().trim();
+    return line === '' || line.startsWith('//') ? null : line;
+  }
 }

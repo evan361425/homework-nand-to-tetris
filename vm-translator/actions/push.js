@@ -1,6 +1,6 @@
-const Action = require('./action');
+const { Action } = require('../action');
 
-module.exports = class Push {
+export class Push {
   static constant(index) {
     return new Action([
       `@${index}`,
