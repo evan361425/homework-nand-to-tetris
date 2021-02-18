@@ -1,47 +1,39 @@
-const MemorySegment = require('./memory-segment');
-const Logic = require('./logic');
+const { MemorySegment } = require('./memory-segment');
+const { Logic } = require('./actions/logic');
+const { Arithmetic } = require('./actions/arithmetic');
+const { Bitwise } = require('./actions/bitwise');
+
+/* eslint-disable no-multi-spaces */
+const PREFIX_MEMORY_SEGMENT = ['push', 'pop'];
+const PREFIX_LOGIC          = ['eq', 'lt', 'gt'];
+const PREFIX_ARITHMETIC     = ['add', 'sub', 'and', 'or'];
+const PREFIX_BITWISE        = ['neg', 'not'];
+/* eslint-enable no-multi-spaces */
 
 module.exports = class Translator {
   static translate(line) {
     const parts = line.split(' ');
-    switch (parts.length) {
-    case 3:
-      return this.memory(...parts);
-    case 1:
-      return this.logic(parts[0]);
-    default:
-      throw Error('VM code is in wrong format');
-    }
-  }
+    const action = parts[0];
 
-  static memory(action, segment, index) {
-    switch (action) {
-    case 'push':
-    case 'pop':
+    if (PREFIX_MEMORY_SEGMENT.includes(action)) {
+      const { 1: segment, 2: index } = parts;
       const ms = new MemorySegment(segment);
-      return ms[action](index);
-    default:
-      throw Error('Memory segment action must only be "push" or "pop"');
-    }
-  }
 
-  static logic(action) {
-    switch (action) {
-    // arithmetic
-    case 'add':
-    case 'sub':
-    case 'and':
-    case 'or':
-    // logic
-    case 'eq':
-    case 'lt':
-    case 'gt':
-    // bitwise
-    case 'neg':
-    case 'not':
-      return Logic[action]().output();
-    default:
-      throw Error(`Action ${action} is not allow`);
+      return ms[action](index).output();
     }
+
+    if (PREFIX_LOGIC.includes(action)) {
+      return Logic[action]().output();
+    }
+
+    if (PREFIX_ARITHMETIC.includes(action)) {
+      return Arithmetic[action]().output();
+    }
+
+    if (PREFIX_BITWISE.includes(action)) {
+      return Bitwise[action]().output();
+    }
+
+    throw Error(`Action ${action} is not allow`);
   }
 };

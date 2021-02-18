@@ -1,7 +1,7 @@
 const Push = require('./push');
 const Pop = require('./pop');
 
-module.exports = class MemorySegment {
+export class MemorySegment {
   constructor(segment) {
     this.variable = this.getVariable(segment);
   }
@@ -13,13 +13,13 @@ module.exports = class MemorySegment {
     case 'CONSTANT':
       throw Error('Constant can not be pop');
     case 'STATIC':
-      return Pop.static(MemorySegment.staticVar(index)).output();
+      return Pop.static(MemorySegment.staticVar(index));
     case 'TEMP':
-      return Pop.temp(index).output();
+      return Pop.temp(index);
     case 'POINTER':
-      return Pop.static(index === 0 ? 'THIS' : 'THAT').output();
+      return Pop.static(index === 0 ? 'THIS' : 'THAT');
     default:
-      return Pop.basic(this.variable, index).output();
+      return Pop.basic(this.variable, index);
     }
   }
 
@@ -28,15 +28,15 @@ module.exports = class MemorySegment {
 
     switch (this.variable) {
     case 'CONSTANT':
-      return Push.constant(index).output();
+      return Push.constant(index);
     case 'STATIC':
-      return Push.static(MemorySegment.staticVar(index)).output();
+      return Push.static(MemorySegment.staticVar(index));
     case 'TEMP':
-      return Push.temp(index).output();
+      return Push.temp(index);
     case 'POINTER':
-      return Push.static(index === 0 ? 'THIS' : 'THAT').output();
+      return Push.static(index === 0 ? 'THIS' : 'THAT');
     default:
-      return Push.basic(this.variable, index).output();
+      return Push.basic(this.variable, index);
     }
   }
 

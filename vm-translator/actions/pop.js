@@ -59,4 +59,20 @@ module.exports = class Pop {
       'D=M', // save target data
     ]);
   }
+
+  /**
+   * Pop 2 value out and put stack pointer on second value
+   *
+   * |*|
+   * |x| <- SP will be here
+   * |y| <- save to D
+   *
+   * @return {Action}
+   */
+  static pop2() {
+    return Pop.pop().concat([
+      '@SP',
+      'A=M-1', // get prev element but don't point decrement
+    ]);
+  }
 };

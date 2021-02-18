@@ -18,6 +18,6 @@
     "max-len": ["warn", {"code": 200, "tabWidth": 2}],
     "object-curly-spacing": ["error", "always"],
     "require-jsdoc": "off",
-    "linebreak-style": 0,
+    "linebreak-style": 0
   }
 }

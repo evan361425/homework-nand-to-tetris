@@ -1,7 +1,7 @@
 const fs = require('fs');
 const readline = require('readline');
-const Translator = require('./translator');
-const MemorySegment = require('./memory-segment');
+const Translator = require('./vm-translator/translator');
+const MemorySegment = require('./vm-translator/memory-segment');
 
 // 0: node, 1: current file
 const source = process.argv[2];
