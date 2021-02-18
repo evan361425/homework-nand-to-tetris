@@ -10,7 +10,7 @@ export class Bitwise {
   static not() {
     return new Action([
       '@SP',
-      'A=M-1', // negative last element
+      'A=M-1', // not last element
       'M=!M',
     ]);
   }

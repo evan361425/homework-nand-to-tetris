@@ -2,36 +2,33 @@ const Action = require('./action');
 
 module.exports = class Pop {
   static basic(variable, index) {
-    const actions = this.pop();
     // go to specific index
     if (index === 0) {
-      return actions.concat([
+      return this.pop().concat([
         `@${variable}`,
         'A=M',
         'M=D',
       ]);
     } else if (index < 10) {
-      return actions
+      return this.pop()
         .add(`@${variable}`)
         .add('A=M+1')
         .concat(new Array(index-1).fill('A=A+1'))
         .add('M=D');
     } else {
-      return actions.concat([
-        '@1000',
-        'M=D',
+      return (new Action([
         `@${index}`,
         'D=A',
         `@${variable}`,
-        'D=M+D',
-        '@1001',
-        'M=D',
+        'D=M+D', // memory pointer of specific variable after [index]
         '@1000',
-        'D=M',
-        '@1001',
-        'A=M',
-        'M=D',
-      ]);
+        'M=D', // save it and will reuse after getting value
+      ])).concat(this.pop())
+        .concat([
+          '@1000',
+          'A=M',
+          'M=D',
+        ]);
     }
   }
 
