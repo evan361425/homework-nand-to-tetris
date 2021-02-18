@@ -4,7 +4,7 @@ const Action = require('./action');
 let counter = 0;
 
 module.exports = class Logic {
-  // MATH
+  // ARITHMETIC
 
   static add() {
     return this.pop2().concat([
@@ -34,17 +34,17 @@ module.exports = class Logic {
 
   static eq() {
     // if D == 0 (equal), jump
-    return this.pop2().concat(this.logicAction('JEQ'));
+    return this.pop2().concat(this.logicActions('JEQ'));
   }
 
   static lt() {
     // if D < 0 (x < y), jump
-    return this.pop2().concat(this.logicAction('JLT'));
+    return this.pop2().concat(this.logicActions('JLT'));
   }
 
   static gt() {
     // if D > 0 (x > y), jump
-    return this.pop2().concat(this.logicAction('JGT'));
+    return this.pop2().concat(this.logicActions('JGT'));
   }
 
   static neg() {
@@ -66,6 +66,12 @@ module.exports = class Logic {
   // HELPER
 
   /**
+   * Pop 2 value out and put stack pointer on second value
+   *
+   * |*|
+   * |x| <- SP will be here
+   * |y| <- save to D
+   *
    * @return {Action}
    */
   static pop2() {
@@ -80,9 +86,9 @@ module.exports = class Logic {
    * @param {string} logic
    * @return {string[]}
    */
-  static logicAction(logic) {
+  static logicActions(logic) {
     return [
-      'D=M-D',
+      'D=M-D', // second minus first
       'M=-1', // default to true
       `@JUMP.${counter}`,
       `D;${logic}`, // jump to end of this action if is true

@@ -24,12 +24,20 @@ module.exports = class Action {
     return this;
   }
 
+  /**
+   * Add single action
+   * @param {string} action
+   * @return {Action}
+   */
   add(action) {
     this.actions.push(action);
 
     return this;
   }
 
+  /**
+   * @return {string}
+   */
   output() {
     return this.actions.join(`\n`);
   }

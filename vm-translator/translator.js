@@ -1,4 +1,4 @@
-const Ram = require('./ram');
+const MemorySegment = require('./memory-segment');
 const Logic = require('./logic');
 
 module.exports = class Translator {
@@ -15,12 +15,11 @@ module.exports = class Translator {
   }
 
   static memory(action, segment, index) {
-    const ram = new Ram(segment);
-
     switch (action) {
     case 'push':
     case 'pop':
-      return ram[action](index);
+      const ms = new MemorySegment(segment);
+      return ms[action](index);
     default:
       throw Error('Memory segment action must only be "push" or "pop"');
     }
@@ -28,7 +27,7 @@ module.exports = class Translator {
 
   static logic(action) {
     switch (action) {
-    // math
+    // arithmetic
     case 'add':
     case 'sub':
     case 'and':

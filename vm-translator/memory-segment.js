@@ -1,7 +1,7 @@
 const Push = require('./push');
 const Pop = require('./pop');
 
-module.exports = class Ram {
+module.exports = class MemorySegment {
   constructor(segment) {
     this.variable = this.getVariable(segment);
   }
@@ -13,7 +13,7 @@ module.exports = class Ram {
     case 'CONSTANT':
       throw Error('Constant can not be pop');
     case 'STATIC':
-      return Pop.static(Ram.staticVar(index)).output();
+      return Pop.static(MemorySegment.staticVar(index)).output();
     case 'TEMP':
       return Pop.temp(index).output();
     case 'POINTER':
@@ -30,7 +30,7 @@ module.exports = class Ram {
     case 'CONSTANT':
       return Push.constant(index).output();
     case 'STATIC':
-      return Push.static(Ram.staticVar(index)).output();
+      return Push.static(MemorySegment.staticVar(index)).output();
     case 'TEMP':
       return Push.temp(index).output();
     case 'POINTER':
@@ -51,11 +51,11 @@ module.exports = class Ram {
 
   static setStaticFile(source) {
     const folderIndex = source.lastIndexOf('/') + 1;
-    Ram.source = source.substr(folderIndex, source.lastIndexOf('.') - folderIndex);
+    MemorySegment.source = source.substr(folderIndex, source.lastIndexOf('.') - folderIndex);
   }
 
   static staticVar(index) {
-    return `${Ram.source}.${index}`;
+    return `${MemorySegment.source}.${index}`;
   }
 
   /**

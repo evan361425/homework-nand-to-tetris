@@ -1,7 +1,7 @@
 const fs = require('fs');
 const readline = require('readline');
 const Translator = require('./translator');
-const Ram = require('./ram');
+const MemorySegment = require('./memory-segment');
 
 // 0: node, 1: current file
 const source = process.argv[2];
@@ -23,7 +23,7 @@ function readSource() {
   const target = `${source.substr(0, source.lastIndexOf('.'))}.asm`;
   const sourceStream = fs.createReadStream(source);
   const targetStream = fs.createWriteStream(target);
-  Ram.setStaticFile(source);
+  MemorySegment.setStaticFile(source);
   let lineIndex = 0;
 
   readline.createInterface({
