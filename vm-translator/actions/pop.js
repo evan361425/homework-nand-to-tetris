@@ -9,7 +9,7 @@ export class Pop {
         'A=M',
         'M=D',
       ]);
-    } else if (index < 10) {
+    } else if (index < 6) {
       return this.pop()
         .add(`@${variable}`)
         .add('A=M+1')
@@ -21,11 +21,11 @@ export class Pop {
         'D=A',
         `@${variable}`,
         'D=M+D', // memory pointer of specific variable after [index]
-        '@1000',
+        '@R13',
         'M=D', // save it and will reuse after getting value
       ])).concat(this.pop())
         .concat([
-          '@1000',
+          '@R13',
           'A=M',
           'M=D',
         ]);
