@@ -1,14 +1,14 @@
-import { MemorySegment } from './memory-segment.js';
-import { Logic } from './actions/logic.js';
 import { Arithmetic } from './actions/arithmetic.js';
 import { Bitwise } from './actions/bitwise.js';
+import { Flow } from './actions/flow.js';
+import { Logic } from './actions/logic.js';
+import { MemorySegment } from './memory-segment.js';
 
-/* eslint-disable no-multi-spaces */
 const PREFIX_MEMORY_SEGMENT = ['push', 'pop'];
 const PREFIX_LOGIC = ['eq', 'lt', 'gt'];
 const PREFIX_ARITHMETIC = ['add', 'sub', 'and', 'or'];
 const PREFIX_BITWISE = ['neg', 'not'];
-/* eslint-enable no-multi-spaces */
+const PREFIX_FLOW = ['label', 'goto', 'if-goto'];
 
 export class Translator {
   /**
@@ -36,6 +36,13 @@ export class Translator {
 
     if (PREFIX_BITWISE.includes(action)) {
       return Bitwise[action]().output();
+    }
+
+    if (PREFIX_FLOW.includes(action)) {
+      if (!parts[1]) throw Error(`Wrong format on FLOW(${action})`);
+      if (action === 'if-goto') action = 'ifGoto';
+
+      return Flow[action](parts[1]).output();
     }
 
     throw Error(`Action ${action} is not allow`);

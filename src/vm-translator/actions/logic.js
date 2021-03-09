@@ -36,12 +36,12 @@ export class Logic {
     return [
       'D=M-D', // second minus first
       'M=-1', // default to true
-      `@JUMP.${counter}`,
+      `@LOGIC.${counter}`,
       `D;${logic}`, // jump to end of this action if is true
       '@SP',
       'A=M-1', // stack pointer is point to new element, go back to set old
       'M=0', // set to false
-      `(JUMP.${counter++})`,
+      `(LOGIC.${counter++})`,
     ];
   }
 }
