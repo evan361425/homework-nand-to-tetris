@@ -14,10 +14,11 @@
     "sourceType": "module"
   },
   "rules": {
-    "indent": ["error", 2],
-    "max-len": ["warn", {"code": 200, "tabWidth": 2}],
+    "indent": ["error", 2, { "SwitchCase": 1, "offsetTernaryExpressions": true }],
+    "linebreak-style": 0,
+    "max-len": ["warn", {"code": 80, "tabWidth": 2}],
     "object-curly-spacing": ["error", "always"],
-    "require-jsdoc": "off",
-    "linebreak-style": 0
+    "operator-linebreak": ["error", "after", { "overrides": { "?": "before", ":": "before" } }],
+    "require-jsdoc": "off"
   }
 }

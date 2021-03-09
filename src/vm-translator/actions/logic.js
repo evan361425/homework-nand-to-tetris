@@ -1,18 +1,27 @@
-const { Pop } = require('./pop');
+import { Pop } from './pop.js';
 
 let counter = 0;
 
 export class Logic {
+  /**
+   * @return {Action}
+   */
   static eq() {
     // if D == 0 (equal), jump
     return Pop.pop2().concat(this.logicActions('JEQ'));
   }
 
+  /**
+   * @return {Action}
+   */
   static lt() {
     // if D < 0 (x < y), jump
     return Pop.pop2().concat(this.logicActions('JLT'));
   }
 
+  /**
+   * @return {Action}
+   */
   static gt() {
     // if D > 0 (x > y), jump
     return Pop.pop2().concat(this.logicActions('JGT'));
@@ -35,4 +44,4 @@ export class Logic {
       `(JUMP.${counter++})`,
     ];
   }
-};
+}

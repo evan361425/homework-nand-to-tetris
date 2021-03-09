@@ -1,16 +1,20 @@
-const { MemorySegment } = require('./memory-segment');
-const { Logic } = require('./actions/logic');
-const { Arithmetic } = require('./actions/arithmetic');
-const { Bitwise } = require('./actions/bitwise');
+import { MemorySegment } from './memory-segment.js';
+import { Logic } from './actions/logic.js';
+import { Arithmetic } from './actions/arithmetic.js';
+import { Bitwise } from './actions/bitwise.js';
 
 /* eslint-disable no-multi-spaces */
 const PREFIX_MEMORY_SEGMENT = ['push', 'pop'];
-const PREFIX_LOGIC          = ['eq', 'lt', 'gt'];
-const PREFIX_ARITHMETIC     = ['add', 'sub', 'and', 'or'];
-const PREFIX_BITWISE        = ['neg', 'not'];
+const PREFIX_LOGIC = ['eq', 'lt', 'gt'];
+const PREFIX_ARITHMETIC = ['add', 'sub', 'and', 'or'];
+const PREFIX_BITWISE = ['neg', 'not'];
 /* eslint-enable no-multi-spaces */
 
 export class Translator {
+  /**
+   * @param {string} line
+   * @return {string}
+   */
   static translate(line) {
     const parts = line.split(' ');
     const action = parts[0];
@@ -36,4 +40,4 @@ export class Translator {
 
     throw Error(`Action ${action} is not allow`);
   }
-};
+}
