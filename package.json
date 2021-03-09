@@ -1,8 +1,12 @@
 {
   "author": "Shueh Chou Lu <evanlu361425@gmail.com>",
   "type": "module",
+  "scripts": {
+    "lint": "eslint '**/*.js'"
+  },
   "devDependencies": {
     "eslint": "^7.18.0",
-    "eslint-config-google": "^0.14.0"
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.1.0"
   }
 }
