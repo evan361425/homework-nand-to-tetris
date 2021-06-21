@@ -1,16 +1,5 @@
-import * as path from 'path';
-import * as fs from 'fs';
-
-function mkdirRecurse(inputPath) {
-  if (fs.existsSync(inputPath)) {
-    return;
-  }
-  const basePath = path.dirname(inputPath);
-  if (fs.existsSync(basePath)) {
-    fs.mkdirSync(inputPath);
-  }
-  mkdirRecurse(basePath);
-}
+import { mkdirSync, createWriteStream } from 'fs';
+import { basename } from 'path';
 
 export class FileWriter {
   /**
@@ -21,9 +10,9 @@ export class FileWriter {
     if (source !== null) {
       source = `${source.substr(0, source.lastIndexOf('.'))}.${extension}`;
     }
-    mkdirRecurse(source);
+    mkdirSync(basename(source), { recursive: true });
     console.log(`Connect to file ${source}`);
-    this.stream = fs.createWriteStream(source);
+    this.stream = createWriteStream(source);
   }
 
   /**

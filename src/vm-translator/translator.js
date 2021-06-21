@@ -17,7 +17,7 @@ export class Translator {
    */
   static translate(line) {
     const parts = line.split(' ');
-    const action = parts[0];
+    let action = parts[0];
 
     if (PREFIX_MEMORY_SEGMENT.includes(action)) {
       const { 1: segment, 2: index } = parts;

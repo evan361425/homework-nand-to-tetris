@@ -1,5 +1,5 @@
-import { Pop } from './pop';
-import { Action } from '../action';
+import { Pop } from './pop.js';
+import { Action } from '../action.js';
 
 export class Flow {
   /**
