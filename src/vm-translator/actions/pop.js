@@ -6,7 +6,7 @@ export class Pop {
    * @param {number} index
    * @return {Action}
    */
-  static basic(variable, index) {
+  static basic(variable, index = 0) {
     // go to specific index
     if (index === 0) {
       return this.pop().concat([`@${variable}`, 'A=M', 'M=D']);

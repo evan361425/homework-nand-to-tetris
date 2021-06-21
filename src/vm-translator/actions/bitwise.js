@@ -1,3 +1,5 @@
+import { Action } from '../action.js';
+
 export class Bitwise {
   static neg() {
     return new Action([

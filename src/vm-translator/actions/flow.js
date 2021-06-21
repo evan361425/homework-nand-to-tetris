@@ -4,18 +4,20 @@ import { Action } from '../action.js';
 export class Flow {
   /**
    * @param {string} label
+   * @param {string} prefix
    * @return {Action}
    */
-  static label(label) {
-    return new Action([`(LABEL.${label})`]);
+  static label(label, prefix = 'LABEL') {
+    return new Action([`(${prefix}.${label})`]);
   }
 
   /**
    * @param {string} label
+   * @param {string} prefix
    * @return {Action}
    */
-  static goto(label) {
-    return new Action([`@LABEL.${label}`, '0;JMP']);
+  static goto(label, prefix = 'LABEL') {
+    return new Action([`@${prefix}.${label}`, '0;JMP']);
   }
 
   /**

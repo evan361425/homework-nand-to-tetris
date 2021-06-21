@@ -10,7 +10,7 @@ const PREFIX_LOGIC = ['eq', 'lt', 'gt'];
 const PREFIX_ARITHMETIC = ['add', 'sub', 'and', 'or'];
 const PREFIX_BITWISE = ['neg', 'not'];
 const PREFIX_FLOW = ['label', 'goto', 'if-goto'];
-const PREFIX_FUNCTION = ['function', 'return'];
+const PREFIX_FUNCTION = ['function', 'call', 'return'];
 
 export class Translator {
   /**

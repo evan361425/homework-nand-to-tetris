@@ -1,5 +1,5 @@
-import { mkdirSync, createWriteStream } from 'fs';
-import { basename } from 'path';
+import { createWriteStream, statSync } from 'fs';
+import { basename, join } from 'path';
 
 export class FileWriter {
   /**
@@ -7,10 +7,14 @@ export class FileWriter {
    * @param {string|null} extension
    */
   constructor(source, extension = null) {
-    if (source !== null) {
+    const fstat = statSync(source);
+
+    if (fstat.isDirectory()) {
+      source = join(source, basename(source) + '.asm');
+    } else {
       source = `${source.substr(0, source.lastIndexOf('.'))}.${extension}`;
     }
-    mkdirSync(basename(source), { recursive: true });
+
     console.log(`Connect to file ${source}`);
     this.stream = createWriteStream(source);
   }
