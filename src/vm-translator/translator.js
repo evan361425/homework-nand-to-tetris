@@ -1,6 +1,7 @@
 import { Arithmetic } from './actions/arithmetic.js';
 import { Bitwise } from './actions/bitwise.js';
 import { Flow } from './actions/flow.js';
+import { Function } from './actions/function.js';
 import { Logic } from './actions/logic.js';
 import { MemorySegment } from './memory-segment.js';
 
@@ -9,6 +10,7 @@ const PREFIX_LOGIC = ['eq', 'lt', 'gt'];
 const PREFIX_ARITHMETIC = ['add', 'sub', 'and', 'or'];
 const PREFIX_BITWISE = ['neg', 'not'];
 const PREFIX_FLOW = ['label', 'goto', 'if-goto'];
+const PREFIX_FUNCTION = ['function', 'return'];
 
 export class Translator {
   /**
@@ -43,6 +45,10 @@ export class Translator {
       if (action === 'if-goto') action = 'ifGoto';
 
       return Flow[action](parts[1]).output();
+    }
+
+    if (PREFIX_FUNCTION.includes(action)) {
+      return Function[action](parts[1], parts[2]).output();
     }
 
     throw Error(`Action ${action} is not allow`);

@@ -1,6 +1,11 @@
 import { Action } from '../action.js';
 
 export class Pop {
+  /**
+   * @param {string} variable
+   * @param {number} index
+   * @return {Action}
+   */
   static basic(variable, index) {
     // go to specific index
     if (index === 0) {
