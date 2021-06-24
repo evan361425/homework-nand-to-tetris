@@ -1,5 +1,4 @@
 import { Translator } from './src/vm-translator/translator.js';
-import { MemorySegment } from './src/vm-translator/memory-segment.js';
 import { FileParser } from './src/util/file-parser.js';
 import { FileWriter } from './src/util/file-writer.js';
 
@@ -12,7 +11,6 @@ if (!source) {
 
 const parser = new FileParser(source);
 const writer = new FileWriter(source, 'asm');
-MemorySegment.setStaticFile(parser.source);
 
 parser
   .parse((line) => {

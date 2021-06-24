@@ -44,10 +44,14 @@ export class Function {
     action.concat(['@THAT', 'D=M', ...Push.push()]);
     // point ARG to SP before [argCounts] + 5, 5 represent 5 actions before it
     action.concat(
-      this.copyTo('ARG', { stepBack: argCounts + 5, pointerOnly: true }),
+      this.copyTo('ARG', {
+        from: 'SP',
+        stepBack: argCounts + 5,
+        pointerOnly: true,
+      }),
     );
     // point LCL to SP
-    action.concat(this.copyTo('LCL'));
+    action.concat(this.copyTo('LCL', { from: 'SP' }));
     // goto function
     action.concat(Flow.goto(name, FUNCTION_PREFIX));
     // label return
@@ -58,6 +62,9 @@ export class Function {
 
   static return() {
     const action = new Action();
+    // return pointer to R14
+    // this must before pop to arg, since if (arg count = 0) it will be erase
+    action.concat(this.copyTo('R14', { from: 'LCL', stepBack: 5 }));
     // return back ARG value
     // ARG = SP data
     action.concat(Pop.basic('ARG'));
@@ -66,8 +73,6 @@ export class Function {
     action.concat(
       this.copyTo('SP', { from: 'ARG', stepFront: 1, pointerOnly: true }),
     );
-    // return pointer to R14
-    action.concat(this.copyTo('R14', { from: 'LCL', stepBack: 5 }));
     // resolve THAT
     action.concat(this.copyTo('THAT', { from: 'LCL', stepBack: 1 }));
     // resolve THIS
@@ -87,10 +92,7 @@ export class Function {
    * @param {object} options
    * @return {string[]}
    */
-  static copyTo(
-    to,
-    options = { stepBack: undefined, stepFront: undefined, from: 'SP' },
-  ) {
+  static copyTo(to, options) {
     return [
       `@${options.from}`,
       'D=M',
@@ -103,7 +105,7 @@ export class Function {
 
   /**
    * @param {string} dir
-   * @param {string} step
+   * @param {int} step
    * @param {bool} pointerOnly
    * @return {string[]}
    */

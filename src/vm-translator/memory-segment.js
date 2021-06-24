@@ -67,6 +67,7 @@ export class MemorySegment {
       folderIndex,
       source.lastIndexOf('.') - folderIndex,
     );
+    console.log(`Setting up static ${MemorySegment.source}`);
   }
 
   static staticVar(index) {

@@ -48,7 +48,7 @@ export class Translator {
     }
 
     if (PREFIX_FUNCTION.includes(action)) {
-      return Function[action](parts[1], parts[2]).output();
+      return Function[action](parts[1], parseInt(parts[2], 10)).output();
     }
 
     throw Error(`Action ${action} is not allow`);
